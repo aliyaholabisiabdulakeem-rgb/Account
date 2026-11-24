@@ -1,16 +1,23 @@
-import org.junit.Test;
+//import org.junit.jupiter.api.Test;
+//import static org.junit.jupiter.api.Assertions.assertEquals;
+//import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AccountTest {
-
     @Test
     public void testNewAccountBalanceIsZero() {
         Account account = new Account("Aliyah", "1234");
         assertEquals(0, account.getBalance("1234"));
     }
 
-    private void assertEquals(int i, double balance) {
+    @Test
+    public void testAccountNotLockedAtStart() {
+        Account account = new Account("Aliyah", "1234");
+        assertEquals(false, account.isLocked());
     }
 
     @Test
@@ -58,7 +65,6 @@ public class AccountTest {
         assertEquals(10000, account.getBalance("1234"));
     }
 
-
     @Test
     public void testCannotWithdrawMoreThanBalance() {
         Account account = new Account("Aliyah", "1234");
@@ -95,25 +101,25 @@ public class AccountTest {
         assertEquals(-1, account.getBalance("1234"));
     }
 
-//    @Test
-//    public void testCannotChangePinWithWrongOldPin() {
-//        Account account = new Account("Aliyah", "1234");
-//        assertEquals(false, account.changePin("9999", "5678"));
-//    }
-//
-//    @Test
-//    public void testCannotChangePinToWrongLength() {
-//        Account account = new Account("Aliyah", "1234");
-//        assertEquals(false, account.changePin("1234", "12"));
-//    }
+    @Test
+    public void testCannotChangePinWithWrongOldPin() {
+        Account account = new Account("Aliyah", "1234");
+        assertEquals(false, account.changePin("9999", "5678"));
+    }
 
-//    @Test
-//    public void testOneWrongPinDoesNotLock() {
-//        Account account = new Account("Aliyah", "1234");
-//        assertEquals(-1, account.getBalance("9999"));
-//        assertEquals(false, account.isLocked());
-//        assertEquals(0, account.getBalance("1234"));
-//    }
+    @Test
+    public void testCannotChangePinToWrongLength() {
+        Account account = new Account("Aliyah", "1234");
+        assertEquals(false, account.changePin("1234", "12"));
+    }
+
+    @Test
+    public void testOneWrongPinDoesNotLock() {
+        Account account = new Account("Aliyah", "1234");
+        assertEquals(-1, account.getBalance("9999"));
+        assertEquals(false, account.isLocked());
+        assertEquals(0, account.getBalance("1234"));
+    }
 
     @Test
     public void testAccountLocksAfter3WrongPins() {
